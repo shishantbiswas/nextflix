@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+    background-color: #151515;
+    box-sizing: border-box;
+    color: white;
+    font-family: "Nsans Regular",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+ 
+
+  @-moz-document url-prefix() {
+    html,
+    body {
+      scrollbar-width: none;
+    }
+  }
+
+  body::-webkit-scrollbar{
+    display:none;
+  }
