@@ -6,13 +6,18 @@ import  {load}  from 'cheerio'
 import React, { useEffect, useState } from 'react'
 
 interface MovieData {
-  id: number;
-  title: string;
-  category: string[];
-  image: string;
-  url: string;
-  type: string;
- }
+  data:{
+    
+    id: number;
+    title: string;
+    category: string[];
+    image: string;
+    url: string;
+    type: string;
+    provider:string
+    
+  }
+}
 
 const AnimeDekho = () => {
     const [moviesData, setMoviesData] = useState<MovieData[]>([]);
@@ -76,11 +81,11 @@ const AnimeDekho = () => {
     }, [])
     // console.log('from page',moviesData);
     
-   const randomMovie = moviesData[0];
+   const randomMovie:MovieData = moviesData[0];
     
   return (
     <div>
-    {randomMovie && <ScrapeHero data={randomMovie} key={randomMovie.id} />}
+    {randomMovie && <ScrapeHero data={randomMovie.data} key={randomMovie.data.id} />}
     {}
     </div>
   )

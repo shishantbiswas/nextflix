@@ -3,16 +3,7 @@ import React, {  useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 
 type DataProps = {
-  data: {
-    data: {
-       title: string;
-       image: string;
-       category: []; 
-       url: string; 
-       id: number; 
-       provider:string
-      };
-  }
+  data: any
  }
 
 const ScrapeHero = ({data}:DataProps) => {  
@@ -42,7 +33,7 @@ const ScrapeHero = ({data}:DataProps) => {
             <p 
             className='text-gray-400 mt-2 text-sm'
             >
-            {category.map((cat, index) => (
+            {category.map((cat:any, index:number) => (
             <p key={index}>{cat}</p>
             ))}  
             <br/>

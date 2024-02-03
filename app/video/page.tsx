@@ -63,9 +63,9 @@ useEffect(() => {
           <div>
             <h1 className='text-2xl font-semibold mb-2'>What are Provider ? </h1>
               <p className='opacity-80'>Provider are thrid parties that hold the Movie/Series Source at there sever, diffrent providers ensure that a Movie/Series is available at all times.</p>
-              <h1 className='text-2xl font-semibold my-2'>What if they don't work</h1>
+              <h1 className='text-2xl font-semibold my-2'>What if they do not work</h1>
               <p className='opacity-80'>
-                  Not all the time you will be able see the Movie/Series because Providers themselves don't have the data on them which is why you'll see the Movie at the Home page that doesn't lead to a Source.
+                  Not all the time you will be able see the Movie/Series because Providers themselves don&apos;t have the data on them which is why you&apos;ll see the Movie at the Home page that doesn&apos;t lead to a Source.
               </p>
           </div>
           <button onClick={()=>setModal(false)} className='w-full rounded-md mt-6 px-4 py-2 bg-white text-black'>Countinue with the Show</button>
