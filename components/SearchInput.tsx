@@ -21,10 +21,10 @@ const SearchInput = () => {
   return (
     <div className='relative'>
     <form
-    className='flex  justify-center items-center'
+    className='flex  justify-center items-center w-[250px] mr-4'
     onSubmit={submitHandler}>
       <input 
-      className='h-10 rounded-full mr-2 bg-gray-700 text-white outline-none px-4'
+      className='h-10 w-full rounded-full mr-2 bg-gray-700 text-white outline-none px-4'
       type="text" 
       placeholder={value? value :'Search...'}
       onChange={(e) => {setSearchQuery(e.target.value);setActive(false)}}     
@@ -36,7 +36,7 @@ const SearchInput = () => {
     </form>
     <div>
       {active && (
-        <div className='transition-all  absolute top-12 rounded-full left-0 w-[280px] h-10 bg-red-600 flex items-center justify-center font-nsans-regular'>
+        <div className='transition-all  absolute top-12 rounded-full left-0 w-[240px] h-10 bg-red-600 flex items-center justify-center font-nsans-regular'>
           <h1 className='capitalize'>Please enter a search request !</h1>
         </div>
       )}

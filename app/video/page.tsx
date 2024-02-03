@@ -2,111 +2,118 @@
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link';
-import { VscArrowCircleLeft } from "react-icons/vsc";
-import Navbar from '@/components/Navbar';
-
-
+import { FaCircleInfo } from 'react-icons/fa6';
+import { IoIosCloseCircle } from 'react-icons/io';
 
 const Video = () => {
     const params = useSearchParams()
-    const apiSrc = process.env.NEXT_PUBLIC_VIDSRC_URL
-    const twoEmbedApi = process.env.NEXT_PUBLIC_TWO_EMBED_BASE_URL
-    const superApi = process.env.NEXT_PUBLIC_SUPEREMBED_BASE_URL
-
+    
+    const apiSrc = "https://vidsrc.to/embed/movie/"
+    const twoEmbedApi = "https://www.2embed.cc/embed/"
+    const superApi = 'https://multiembed.mov/?video_id='
+    const smashystream ='https://embed.smashystream.com/playere.php?tmdb='
+    const key = process.env.NEXT_PUBLIC_TMDB_KEY
+    
     const [selectedOption, setSelectedOption] = useState('Vidsrc');
-    const [movie, setMovie] = useState(apiSrc && params.get('id') ? apiSrc + params.get('id') : '')
+    const [movie, setMovie] = useState(apiSrc + params.get('tmdbId'))
     const [title, setTitle] = useState('')
     const [rating, setRating] = useState()
     const [date, setDate] = useState()
+    const [modal,setModal]=useState(false)
+  //  console.log(movie);
 
 
 useEffect(() => {
-    axios.get(`https://api.themoviedb.org/3/movie/${params.get('id')}?api_key=c3461f21e07062aa64bd4cbc049b2d98`).then((res)=>{
-        if(res.data.id == params.get('id') ){
+    axios.get(`https://api.themoviedb.org/3/movie/${params.get('tmdbId')}?api_key=${key}`).then((res)=>{
+        if(res.data.id == params.get('tmdbId') ){
         setTitle(res.data.title);
         setDate(res.data.release_date);
         setRating(res.data.overview);
-        }else{
-        axios.get(`https://www.omdbapi.com/?i=${params.get('id')}&apikey=3301b064`).then((res)=>{
-            setTitle(res.data.Title);
-            setDate(res.data.Released);
-            setRating(res.data.Plot);
-        })
-        }
-        })
+        }})
     }, [movie])
     
-    const handleSubmit = (event : React.FormEvent<HTMLFormElement>) => {
-       event.preventDefault();
+    const handleSubmit = () => {
+       //event.preventDefault();
        if(selectedOption=='Vidsrc'){
-        if (apiSrc && params.get('id')) {
-            setMovie(apiSrc + params.get('id'));
+        if (apiSrc && params.get('tmdbId')) {
+            setMovie(apiSrc + params.get('tmdbId'));
         }
     } else if(selectedOption=='2Embed'){
-        if (twoEmbedApi && params.get('id')) {
-            setMovie(twoEmbedApi + params.get('id'));
+        if (twoEmbedApi && params.get('tmdbId')) {
+            setMovie(twoEmbedApi + params.get('tmdbId'));
         }
     } else if(selectedOption=='SuperEmbed'){
-        if (superApi && params.get('id')) {
-            setMovie(superApi + params.get('id'));
-        }
-    }
+      if (superApi && params.get('tmdbId')) {
+          setMovie(superApi + params.get('tmdbId'));
+      }
+    }else if(selectedOption=='SmashyStream'){
+      if (smashystream && params.get('tmdbId')) {
+          setMovie(smashystream + params.get('tmdbId'));
+      }
+  }
  };
 
-    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-       setSelectedOption(event.target.value);
-    };
+
 
   return (
-    <div>
-    <div className='opacity-30 hover:opacity-100 transition-all'>
-    <Navbar/>  
-    </div>  
-     <div className="justify-center pt-28 w-screen content-start flex-wrap  p-5 ">
-      <div className="gap-5 flex max-lg:flex-col max-md:items-stretch max-md:gap-0">
-        <header className="flex h-[396px] flex-col lg:h-[470px] xl:h-[550px] items-stretch w-full md:w-full max-md:ml-0">
+    <div className='w-[100%] p-4 pr-8'>
+      {modal && (
+        <div className='absolute top-[35%] rounded-xl left-[40%] bg-pink-900 w-[500px] p-4 '>
+          <IoIosCloseCircle onClick={()=>setModal(false)}  className='cursor-pointer hover:text-red-600 transition-all duration-200 absolute top-2 right-2' size={40} />
+          <div>
+            <h1 className='text-2xl font-semibold mb-2'>What are Provider ? </h1>
+              <p className='opacity-80'>Provider are thrid parties that hold the Movie/Series Source at there sever, diffrent providers ensure that a Movie/Series is available at all times.</p>
+              <h1 className='text-2xl font-semibold my-2'>What if they don't work</h1>
+              <p className='opacity-80'>
+                  Not all the time you will be able see the Movie/Series because Providers themselves don't have the data on them which is why you'll see the Movie at the Home page that doesn't lead to a Source.
+              </p>
+          </div>
+          <button onClick={()=>setModal(false)} className='w-full rounded-md mt-6 px-4 py-2 bg-white text-black'>Countinue with the Show</button>
+        </div>
+      )}
+     <div className="">
+      <div className=" ">
+        <header className="w-full h-[260px] sm:h-[300px] md:h-[400px] lg:h-[500px]">
         <iframe
         allowFullScreen={true}
-        className='w-full h-full bg-black'
+        className='w-full h-full bg-black rounded-xl overflow-hidden'
         src={movie}></iframe>
         </header>
-        <div className="flex  flex-col items-stretch xl:min-w-[300px]  lg:min-w-[250px] mt-10 md:m-0 md:w-[44%] max-md:w-full max-md:ml-0">
-          <div className="bg-black/40 rounded-lg  w-full sm:w-full flex grow flex-col px-4 py-2  items-start md:min-w-fit sm:mt-0 mt-10 max-md:pr-5">
-            <div>
-            </div>
-          <Link 
-          className='opacity-20 border rounded-md px-2 hover:opacity-100 flex items-center justify-between transition-all  group text-md mb-2' href={'/'}>
-            Return Home
-            <span 
-            className='group-hover:pl-8 pl-2 transition-all  group-hover:text-red-600'>
-              <VscArrowCircleLeft size={20}/>
-          </span>
-          </Link>
-          {/* <Link href={`/api/download?url=${movie}`}>lololo
-          </Link> */}
-            <h1 className=" opacity-20 transition-all font-bold hover:opacity-100  sm:text-[28px]  max-md:text-4xl">
-              {title ? title : 'ERROR: Resource Not Found'}
+        <div className="flex mt-8 rounded-xl overflow-hidden bg-blue-900">
+          <div className=" lg:w-[70%] p-4">
+            <h1 className="text-2xl lg:text-5xl mb-4">
+              {title ? title : '404 Not Found'}
             </h1>
-            <h1 className=" opacity-20 transition-all hover:opacity-100  sm:text-[17px] p-0  whitespace-nowrap mt-2 max-md:text-4xl">
+            <h1 className="">
               {date}
             </h1>
-            <h1 className=" opacity-20 transition-all hover:opacity-100  sm:text-[25px]  md:text-[18px]  mt-2 mb-9 max-md:text-4xl">
-              {rating ? rating : 'In some cases, The Movie Information could not be fetched but the video might still work'}
+            <h1 className="">
+              {rating ? rating : null}
             </h1>
-            <form
-            className='opacity-20 w-full transition-all hover:opacity-100 '
-            onSubmit={handleSubmit} >
+          </div>
+          <div className='min-w-[30%] p-4 '>
+              <div className='w-full h-full'>
+              <form
+            className='h-fit'
+            //onSubmit={handleSubmit} 
+            >
             <label className='text-xl '>
-               Choose a Server :<br/>
-                <select className='text-xl my-1 p-2 bg-black/50 border rounded-lg  hover:text-black hover:bg-white' value={selectedOption} onChange={handleSelectChange}>
+               <span className='flex gap-1'>Choose Provider<FaCircleInfo onClick={()=>setModal(true)} size={15} /></span>
+                <select 
+                className='bg-black pl-4 py-0.5 rounded-full w-[170px] ' 
+                value={selectedOption} 
+                onChange={(event)=>{
+                  setSelectedOption(event.target.value)
+                  handleSubmit()
+                  }}>
                 <option value="Vidsrc">Vidsrc</option>
                 <option value="2Embed">2Embed</option>
                 <option value="SuperEmbed">Super Embed</option>
+                <option value="SmashyStream">Smashy Stream</option>
                 </select>
-            </label><br/>
-            <button type='submit' className='my-2 border px-2 py-1 rounded-lg hover:text-black hover:bg-white' >Confirm</button>
+            </label>
         </form>
+              </div>
           </div>
         </div>
       </div>

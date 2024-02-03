@@ -19,41 +19,47 @@ interface Movie {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  images:[{}]
  }
  interface Data {
   results?: Movie[];
+  data:[];
  }
  
 
 const MovieRow = ({data,title}:{data:Data,title:string}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
+ // console.log(data);
+  
     
   return (
     <>
-    <h1 className='font-bold md:text-2xl text-3xl p-4 capitalize'>
-      {title}
+    <div className='w-screen'>
+    <div className='flex items-center /lg:pr-[21%]'>
+    <h1 className='font-bold text-2xl md:text-5xl p-4 capitalize'>
+      {title} 
     </h1>
-    <div className='relative flex items-center group'>
+    <div className='flex items-center gap-2 justify-center'>
       <MdChevronLeft
       size={40}
-      className='bg-white rounded-full absolute left-2 opacity-80 text-gray-700 z-10 hidden group-hover:block cursor-pointer'
+      className='bg-white rounded-full  left-2 opacity-80 text-gray-700 z-10  cursor-pointer'
       onClick={() => scrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
       />
       <MdChevronRight
        size={40}
-       className='bg-white rounded-full absolute right-2 opacity-80 text-gray-700 z-10 hidden group-hover:block cursor-pointer'
+       className='bg-white rounded-full  right-2 opacity-80 text-gray-700 z-10  cursor-pointer'
        onClick={() => scrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
        />
+      </div>
+    </div>
       <div
        ref={scrollRef}
-      className='w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide'>
-       {data.results?.map((movie:Movie) =>
-       (
-        <MovieItem key={movie.id} movie={movie} />
-       ),  
-       )}
+      className='h-fit overflow-x-scroll whitespace-nowrap lg:w-[79%] w-[95%] scroll-smooth scrollbar-hide '>
+       {data.results?.map((movie:any) =><MovieItem key={movie.id} movie={movie} />)}
+       {data.data ? data.data.map((anime:any)=><MovieItem key={anime.id} movie={anime} />)
+       :null}
       </div>
-    </div>    
+      </div>
     </>
 
   )

@@ -7,10 +7,10 @@ import { useRouter } from 'next/navigation';
 const MovieItem = ({movie}:{movie:any}) => {
 
   const navigate = useRouter();
-    const {Title,title,imdbID,backdrop_path,poster_path,Poster,id,release_date}=movie;
+    const {Title,title,backdrop_path,poster_path,Poster,id,release_date}=movie;
 
     const handleView=()=>{
-      navigate.push(`/video?id=${id ? (id):(imdbID) }`)
+      navigate.push(`video/?tmdbId=${id}&type=tmdb`)
     }
 
   return (

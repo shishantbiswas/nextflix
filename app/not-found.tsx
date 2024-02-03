@@ -1,9 +1,12 @@
+import Link from 'next/link'
 import React from 'react'
 
 const notFound = () => {
   return (
-    <div>
-      this is 040 page
+    <div className='h-screen text-center w-full flex item-center justify-center flex-col'>
+      <h1 className=' text-2xl lg:text-8xl'>404 Not Found</h1>
+      <p className='capitalize opacity-70  text-lg'>the resourse your looking for doen't exist</p>
+      <p>Go Back <Link href={'/'} className='underline uppercase '>Home</Link></p>
     </div>
   )
 }

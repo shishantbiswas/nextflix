@@ -8,10 +8,11 @@ body{
     box-sizing: border-box;
     color: white;
     font-family: "Nsans Regular",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden
   }
  
 
-  @-moz-document url-prefix() {
+  /* @-moz-document url-prefix() {
     html,
     body {
       scrollbar-width: none;
@@ -20,4 +21,4 @@ body{
 
   body::-webkit-scrollbar{
     display:none;
-  }
+  } */
