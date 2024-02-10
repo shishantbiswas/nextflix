@@ -10,7 +10,7 @@ interface DataProps {
 const Hero = ({data}:DataProps) => {  
   const router = useRouter();
   const VideoHandler =()=>{
-    router.push(`/video${mal_id ? `?malId=${mal_id}&type=mal` : `?tmdbId=${id}&type=tmdb`}`)
+    router.push(`/video?tmdbId=${id}&type=movie`)
   }
   const {title,name,first_air_date,title_english, backdrop_path, release_date,images,mal_id,trailer,synopsis, overview,id} = data;
 

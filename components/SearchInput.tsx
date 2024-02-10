@@ -1,12 +1,15 @@
-import { useRouter } from 'next/navigation'
+import {  usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useState } from 'react'
 import { IoSearch } from 'react-icons/io5'
 
 const SearchInput = () => {
   const router = useRouter()
+  const params = useSearchParams()
+  const pathname = usePathname()
+  
   
   const [searchQuery, setSearchQuery] = useState('')
-  const [value, setValue] = useState('')
+  const [placeholderValue, setPlaceholderValue] = useState(params.get('query'))
   const [active, setActive] = useState(false)
 
   const submitHandler =(event:any)=>{
@@ -18,15 +21,16 @@ const SearchInput = () => {
       setActive(true)
     }
   }
+
   return (
-    <div className='relative'>
+    <div className={`relative`}>
     <form
     className='flex  justify-center items-center w-[250px] mr-4'
     onSubmit={submitHandler}>
       <input 
       className='h-10 w-full rounded-full mr-2 bg-gray-700 text-white outline-none px-4'
       type="text" 
-      placeholder={value? value :'Search...'}
+      placeholder={placeholderValue? placeholderValue :'Search...'}
       onChange={(e) => {setSearchQuery(e.target.value);setActive(false)}}     
       />
        <button 
@@ -36,8 +40,8 @@ const SearchInput = () => {
     </form>
     <div>
       {active && (
-        <div className='transition-all  absolute top-12 rounded-full left-0 w-[240px] h-10 bg-red-600 flex items-center justify-center font-nsans-regular'>
-          <h1 className='capitalize'>Please enter a search request !</h1>
+        <div className={`transition-all absolute  rounded-full left-0 w-[250px] h-10 bg-red-600 flex items-center justify-center font-nsans-regular ${pathname=='/' ? '-top-12':'top-12'}`}>
+          <h1 className='capitalize'>Can&apos;t Do empty Searches !</h1>
         </div>
       )}
      </div>

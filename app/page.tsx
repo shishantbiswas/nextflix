@@ -4,44 +4,52 @@ import endpoint from '@/services/apiEndpoint'
 import MovieRow from '@/components/MovieRow'
 import Hero from '@/components/Hero'
 import ExtendMovieRow from '@/components/ExtendMovieRow'
+import Footer from '@/components/Footer'
 
 const Explore = async () => {
- const popular             = await getData(endpoint.popular)
+ const popularMovies             = await getData(endpoint.popularMovies)
  const topRatedMovies      = await getData(endpoint.topRatedMovies)
- const trending            = await getData(endpoint.trending)
- const upcoming            = await getData(endpoint.upcoming)
- const popularTvShows      = await getData(endpoint.popularTvShows)
- const airingTodayTvShows  = await getData(endpoint.airingTodayTvShows)
+ const trendingMovies            = await getData(endpoint.trendingMovies)
+ const upcomingMovies            = await getData(endpoint.upcomingMovies)
  const netflix             = await getData(endpoint.netflix)
  const hulu                = await getData(endpoint.hulu)
  const disneyPlus          = await getData(endpoint.disneyPlus)
  const amazon              = await getData(endpoint.amazon)
- const appletv             = await getData(endpoint.appletv)
+ const appletv             = await getData(endpoint.appleTv)
  const paramountPlus       = await getData(endpoint.paramountPlus)
  const hbo                 = await getData(endpoint.hbo)
  const peacock             = await getData(endpoint.peacock)
  const topRatedTvShows     = await getData(endpoint.topRatedTvShows)
 
+ const nowPlayingMovies = await getData(endpoint.nowPlayingMovies)
+ const anime = await getData(endpoint.anime)
+ const animeMovie = await getData(endpoint.animeMovie)
+
+
+
+
  const data = {
-  airingTodayTvShows,netflix,hulu,disneyPlus,amazon,appletv,paramountPlus,hbo,peacock,topRatedTvShows
+  animeMovie,netflix,hulu,disneyPlus,amazon,appletv,paramountPlus,hbo,peacock,topRatedTvShows
+  ,anime
  }
 
  let randomPopularMovie = null;
- if (trending && trending.results) {
-   randomPopularMovie = trending.results[Math.floor(Math.random() * trending.results.length)];
+ if (trendingMovies && trendingMovies.results) {
+   randomPopularMovie = trendingMovies.results[Math.floor(Math.random() * trendingMovies.results.length)];
  }
 
  return (
    <div className='w-screen '>
-     <div className='/flex'>
+     <div >
       
       <div className=''>
     <Hero data={randomPopularMovie}/>
-    <MovieRow title="popular"           data={popular}/>
-    <MovieRow title='Trending'          data={trending} />
-    <MovieRow title='Upcoming'          data={upcoming}/>  
-    <MovieRow title='Top Rated Movies'  data={topRatedMovies}/>
-    <MovieRow title='Popular TV Shows'   data={popularTvShows}/> 
+    <MovieRow title="popular movies"          type='movie' endpointName={'popularMovies'} data={popularMovies}/>
+    <MovieRow title='Trending movies'         type='movie' endpointName={'trendingMovies'} data={trendingMovies} />
+    <MovieRow title='Upcoming movies'          type='movie' endpointName={'upcomingMovies'} data={upcomingMovies}/>  
+    <MovieRow title='Top Rated Movies'  type='movie' endpointName={'topRatedMovies'} data={topRatedMovies}/>
+    <MovieRow title='now playing movies'         type='movie' endpointName={'nowPlayingMovies'} data={nowPlayingMovies} />
+    <MovieRow title="anime movies"  type='movie' endpointName={'animeMovie'} data={animeMovie}/>
      <ExtendMovieRow data={data}/>
     </div>
     </div>
@@ -49,7 +57,7 @@ const Explore = async () => {
  )
 }
 
-async function getData(endpoint:any) {
+async function getData(endpoint:string) {
   const res = await fetch(endpoint)
   if (!res.ok) {
     throw new Error('Failed to fetch data')

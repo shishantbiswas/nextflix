@@ -2,63 +2,54 @@
 
 import React, { useRef } from 'react'
 import MovieItem from './MovieItem'
-import{MdChevronLeft,MdChevronRight}from 'react-icons/md'
+import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation'
+import { VscArrowCircleLeft, VscArrowCircleRight } from 'react-icons/vsc';
 
-interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  images:[{}]
- }
- interface Data {
-  results?: Movie[];
-  data:[];
- }
- 
 
-const MovieRow = ({data,title}:{data:Data,title:string}) => {
+
+const MovieRow = ({data,title,type,endpointName}:{data:any,title:string,type:string,endpointName:string}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
- // console.log(data);
-  
-    
+const router  = useRouter()
+const pathname = usePathname()
+const params =useSearchParams()
+
+
   return (
     <>
-    <div className='w-screen'>
-    <div className='flex items-center /lg:pr-[21%]'>
+    <div className='w-[100%] lg:flex lg:flex-col justify-center '>
+    <div className='flex items-center  justify-between w-[79%]'>
     <h1 className='font-bold text-2xl md:text-5xl p-4 capitalize'>
-      {title} 
+      {!params.get('title') ? title : params.get('title')} 
     </h1>
-    <div className='flex items-center gap-2 justify-center'>
-      <MdChevronLeft
-      size={40}
-      className='bg-white rounded-full  left-2 opacity-80 text-gray-700 z-10  cursor-pointer'
+      {pathname=='/'&&
+      <>
+    <div className='flex items-center gap-2 justify-center '>
+    {pathname=='/' && <button 
+        onClick={()=>router.push(`/nextpage?endpointName=${endpointName}&pageNo=2&title=${title}&type=${type}`)} 
+        className=' font-medium text-xl rounded-full hover:text-black px-2 py-1 transition-all duration-200 hover:bg-white  '>More Like This</button>}  
+        <VscArrowCircleLeft
+      className='
+      rounded-full hover:text-gray-100 transition-all duration-150 left-2 opacity-80 text-gray-400 text-[35px] hover:text-[50px] w-[50px] cursor-pointer'
       onClick={() => scrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
       />
-      <MdChevronRight
-       size={40}
-       className='bg-white rounded-full  right-2 opacity-80 text-gray-700 z-10  cursor-pointer'
+      <VscArrowCircleRight
+       className='text-[35px] hover:text-[50px] w-[50px]
+       rounded-full hover:text-gray-100 transition-all duration-150 right-2 opacity-80 text-gray-400   cursor-pointer'
        onClick={() => scrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
        />
+        </div>
+      </>}
       </div>
-    </div>
       <div
        ref={scrollRef}
-      className='h-fit overflow-x-scroll whitespace-nowrap lg:w-[79%] w-[95%] scroll-smooth scrollbar-hide '>
-       {data.results?.map((movie:any) =><MovieItem key={movie.id} movie={movie} />)}
-       {data.data ? data.data.map((anime:any)=><MovieItem key={anime.id} movie={anime} />)
-       :null}
-      </div>
+      className={`h-fit overflow-x-scroll scroll-smooth scrollbar-hide lg:w-[98%]  ${pathname=='/' && "w-[95%]  whitespace-nowrap" }`}>
+        <div className={`${pathname=='/nextpage' && 'grid grid-cols-5 grid-row-1 '}`}>
+       {data.results?.map((movie:any) =>
+       <MovieItem type={type}  key={movie.id} movie={movie} />
+       )}
+       </div>
+        </div>
       </div>
     </>
 

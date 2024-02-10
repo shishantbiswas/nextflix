@@ -7,7 +7,11 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        '3xl': '10px 10px 0px 0px rgba(0, 0, 0, 0.3)',
+      }
+    },
   },
   plugins: [require('tailwind-scrollbar-hide')],
 }
