@@ -1,5 +1,6 @@
 'use client'
 import FancyBtn from '@/components/FancyBtn';
+import { createImageUrl } from '@/services/apiEndpoint';
 import axios from 'axios';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -77,10 +78,11 @@ const handleSubmit = (e: React.FormEvent) => {
   type,
   first_air_date,
   episode_run_time,
-  last_episode_to_air
+  last_episode_to_air,
 
 }:any = movieData
 
+console.log(movieData);
 
 
 
@@ -102,31 +104,39 @@ const handleSubmit = (e: React.FormEvent) => {
       )}
      <div className="">
       <div className=" ">
-        <header className="w-full h-[260px] sm:h-[300px] md:h-[400px] lg:h-[600px]">
+        <header className="w-full h-[260px] sm:h-[300px] md:h-[400px] lg:h-[600px] mt-2">
         <iframe
         allowFullScreen={true}
         className='w-full h-full bg-black rounded-xl overflow-hidden'
         src={movie}></iframe>
         </header>
-        <div className="flex mt-8 rounded-xl overflow-hidden bg-black/60">
+        <div className="lg:flex mt-8 rounded-xl overflow-hidden bg-black/60">
           <div className=" lg:w-[70%] p-4">
-            <h1 className="text-2xl lg:text-5xl mb-4">
+            <h1 className="text-5xl font-semibold lg:text-7xl my-2 lg:mb-8">
               {title ? title : name}
             </h1>
-            <h1 className="">
-              {date}
-            </h1>
-            <h1 className="text-xl w-[70%]">
+            <h1 className="text-md lg:w-[70%]">
               {overview}
             </h1>
-            <h1 className="my-4">
-              {rating ? rating : type}
-            </h1>
-            <div className='text-sm opacity-75'>
-            <h1 className='flex gap-2 font-medium ' >{genres?.map((e:{name:string,id:number})=>(
+            {type && (
+              <h1 className='text-sm opacity-75'>
+                {type}
+              </h1>
+            )}
+            <div className='text-md opacity-75 mt-2'>
+              <h1>Categories </h1>
+            <h1 className='flex gap-2 ' >{genres?.map((e:{name:string,id:number})=>(
                 <p key={e.id}>{e.name}</p>
             ))}</h1>
-              <h1>{homepage}</h1>
+              {homepage && (
+                <>
+                <div className='mt-6'>
+                <Link href={homepage}>
+                Official website : <span className='underline '>{homepage}</span>
+                </Link>
+              </div>
+                </>
+              )}
             </div>
             <div className='my-8'>
         <Link href='/' className='text-lg p-2 px-3 bg-white text-black rounded-2xl'>Back To Home</Link>
@@ -137,13 +147,13 @@ const handleSubmit = (e: React.FormEvent) => {
               <form
             className=' w-full transition-all hover:opacity-100 '
             onSubmit={handleSubmit} >
-            <label className='text-xl '>
+            <label className='text-2xl mb-4 '>
             <span className='flex gap-1'>Choose Provider<FaCircleInfo onClick={()=>setModal(true)} size={15} /></span>
-                <select className='text-xl my-1 p-2 bg-black/50 border rounded-lg  hover:text-black hover:bg-white' value={selectedOption} onChange={(e)=>setSelectedOption(e.target.value)}>
+                <select className='text-xl my-1 p-2 bg-black/50 border rounded-lg  hover:text-black hover:bg-white w-full text-center outline-none' value={selectedOption} onChange={(e)=>setSelectedOption(e.target.value)}>
                 {params.get('type')=='tv' ? (
                     <>
-                      <option value='VidsrcTV'>tv Vidsrc</option>
-                      <option value='2EmbedTv'>2 embed tv</option>
+                      <option value='VidsrcTV'>TV Vidsrc</option>
+                      <option value='2EmbedTv'>2Embed TV</option>
                     </>
                 ) : (
                   <>
@@ -157,10 +167,9 @@ const handleSubmit = (e: React.FormEvent) => {
                 </select>
             </label><br/>
             <button type='submit' 
-            className='my-2 px-2 py-1 rounded-lg bg-white text-black' 
+            className='my-2 text-xl p-2 w-full rounded-lg bg-white text-black' 
             >Confirm</button>
         </form>
-        
               </div>
           </div>
         </div>

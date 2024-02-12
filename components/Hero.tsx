@@ -24,13 +24,13 @@ const Hero = ({data}:DataProps) => {
     <>
     <div className='w-full  h-[550px] lg:h-[750px] scrollbar-hide overflow-hidden'>
       <div className='w-full h-full '>
-        <div className='absolute w-full h-[550px] lg:h-[750px] bg-gradient-to-t from-[#151515]'/>
+        <div className='absolute w-screen h-[550px] lg:h-[750px] bg-gradient-to-t from-[#151515]'/>
           <img 
           className=' w-full h-full  object-cover object-top'
           src={ images ? images.webp.large_image_url : createImageUrl(backdrop_path,"original")} 
           alt={title ? title : name } />
           <div
-          className='absolute w-[40%] text-end top-[40%] lg:top-[35%] right-0 p-4 md:p-8'>
+          className='absolute w-[50%] lg:w-[40%] text-end top-[40%] lg:top-[35%] right-0 p-4 md:p-8'>
             <h1 
             className='md:text-6xl text-4xl font-semibold'
             >{title_english ? title_english : (title?title:name) }</h1>

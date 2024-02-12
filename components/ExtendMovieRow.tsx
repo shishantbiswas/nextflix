@@ -13,7 +13,7 @@ const ExtendMovieRow = ({data}:{data:any}) => {
     
   return (
     <>
-      <div className=' py-8 pl-4'>
+      <div className=' py-8 lg:pl-4'>
       {!clicked &&  <button
         className=' w-[79%]'>
           <span className='text-5xl font-bold' onClick={()=>setClicked(true)}><FancyBtn text={'Show More ...'} hoverText={'Expand'} /></span>
