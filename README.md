@@ -1,6 +1,26 @@
+# NextFlix
+
+This is Netflix clone Built with Next js, React, and Tailwind CSS. The Goal of this project isn't to exploit/pirate Copyright content but to learn by doing, I wanted to make something that wasn't just for the looks or 'Form over Function'.
+
+# Here are some screenshots of the app
+
+![Demo Screenshot 1](./Screenshot%20nextflix%201.png)
+
+![Demo Screenshot 2](./Screenshot%20nextflix%202.png)
+
+
+## Git Setup 
+
+If you want to clone this you'll need [Git](https://git-scm.com/) installed on your machine then, pick a directory where you want it to be stored, open terminal or CMD/PowerShell in that directory and run `git clone https://github.com/shishantbiswas/nextflix.git` this will clone the content of the main branch to your system now you can write `code .` within the same terminal or CMD/PowerShell instance and develop the project as per you need.
+
+### Everything below is added by Next Js 
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+
 ## Getting Started
+
+
 
 First, run the development server:
 
@@ -18,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Poppins, a Google Font.
 
 ## Learn More
 
