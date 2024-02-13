@@ -30,6 +30,7 @@ const Video = () => {
     const [selectedOption, setSelectedOption] = useState('Vidsrc');
     const [movie, setMovie] = useState((paramsType=='movie') ? apiSrc + params.get('tmdbId') :vidsrcTvapi + params.get('tmdbId'))
     const [movieData, setMovieData] = useState({})
+    const [recommendation, setRecommendation] = useState([])
     const [modal,setModal]=useState(false)
 
 
@@ -37,8 +38,13 @@ const Video = () => {
     axios.get(`https://api.themoviedb.org/3/${paramsType}/${params.get('tmdbId')}?api_key=${key}`).then((res)=>{
        setMovieData(res.data)
       })     
-    }, [movie])
+      // gets recommendation
+      axios.get(`https://api.themoviedb.org/3/${paramsType}/${params.get('tmdbId')}/recommendations?api_key=${key}`).then((res)=>{
+        setRecommendation(res.data.results)
+      })
 
+    }, [movie,params.get('tmdbId')])
+   
     
 const handleSubmit = (e: React.FormEvent) => {
   e.preventDefault();
@@ -82,7 +88,6 @@ const handleSubmit = (e: React.FormEvent) => {
 
 }:any = movieData
 
-console.log(movieData);
 
 
 
@@ -104,18 +109,31 @@ console.log(movieData);
       )}
      <div className="">
       <div className=" ">
+
+
+
+
+
         <header className="w-full h-[260px] sm:h-[300px] md:h-[400px] lg:h-[600px] mt-2">
         <iframe
         allowFullScreen={true}
         className='w-full h-full bg-black rounded-xl overflow-hidden'
         src={movie}></iframe>
         </header>
-        <div className="lg:flex mt-8 rounded-xl overflow-hidden bg-black/60">
-          <div className=" lg:w-[70%] p-4">
-            <h1 className="text-5xl font-semibold lg:text-7xl my-2 lg:mb-8">
+
+
+        <section className='flex lg:flex mt-8 justify-between p-4 bg-gray-900 '>
+          <div className='w-[40%]  pr-4 rounded-md '>
+            <div className=' sticky top-5 p-4 bg-black/20 rounded-xl'>
+            <div>
+          <div >
+            <div >
+              <p className='text-xl mb-3 font-semibold'>Currently Viewing</p>
+            <h1 className="text-5xl font-semibold lg:mb-4">
               {title ? title : name}
             </h1>
-            <h1 className="text-md lg:w-[70%]">
+            <p className='text-lg '>Overview : </p>
+            <h1 className="text-sm opacity-70">
               {overview}
             </h1>
             {type && (
@@ -123,27 +141,26 @@ console.log(movieData);
                 {type}
               </h1>
             )}
-            <div className='text-md opacity-75 mt-2'>
-              <h1>Categories </h1>
-            <h1 className='flex gap-2 ' >{genres?.map((e:{name:string,id:number})=>(
+            <div className='text-md mt-2'>
+              <h1>Categories :</h1>
+            <h1 className='flex gap-2 opacity-60' >{genres?.map((e:{name:string,id:number})=>(
                 <p key={e.id}>{e.name}</p>
             ))}</h1>
               {homepage && (
                 <>
-                <div className='mt-6'>
+                <div className='mt-2 '>
                 <Link href={homepage}>
-                Official website : <span className='underline '>{homepage}</span>
+                Official website : <br/><span className='underline opacity-60'>{homepage}</span>
                 </Link>
               </div>
                 </>
               )}
             </div>
-            <div className='my-8'>
-        <Link href='/' className='text-lg p-2 px-3 bg-white text-black rounded-2xl'>Back To Home</Link>
-        </div>
-          </div>
-          <div className='min-w-[30%] p-4 '>
-              <div className='w-full h-full '>
+            <div className='my-5'>
+              <Link href='/' className='text-lg p-2 px-3 bg-white text-black rounded-lg'>Back To Home</Link>
+              </div>
+        
+        <div className='w-full h-full '>
               <form
             className=' w-full transition-all hover:opacity-100 '
             onSubmit={handleSubmit} >
@@ -172,7 +189,40 @@ console.log(movieData);
         </form>
               </div>
           </div>
-        </div>
+          </div>
+          </div>
+            </div>
+          </div>
+
+
+          <div className='w-[60%]'>
+          <div className=' bg-blue-2900 p-3 '>
+              <h1 className=' text-3xl font-semibold mb-8'>{paramsType=='movie'?'Recommended Movies':'Recommended TV Shows'}</h1>
+              <div className='grid grid-cols-2 gap-4 '>
+              {recommendation.map((e:any)=>(
+                <div key={e.id} className='w-[400px] mb-12'>
+                  <img className='object-cover rounded-md w-[400px] h-[450px] ' src={createImageUrl(e.poster_path,'w500')} alt={e.name || e.title} />
+                  <div className='flex flex-col justify-between min-h-[350px]'>
+                  <div>
+                  <h1 className='text-3xl font-semibold mt-4'>
+                    {e.title || e.name}
+                  </h1>
+                  <p className='leading-tight opacity-60 mt-2'>{e.overview}</p>
+                  <p className='opacity-60  mt-4'> Released In {e.release_date}</p>
+                  <p className='opacity-60 my-0.5'>Average Voting {e.vote_average}</p>
+                  </div>
+                  <Link
+                  className='bg-white text-black hover:text-white hover:bg-black transition-all duration-50 text-xl capitalize font-semibold rounded-xl px-4 py-2  text-center'
+                  href={`/video?tmdbId=${e.id}&type=${e.media_type}`}>Play This {paramsType}</Link>
+                  </div>
+                </div>
+              ))}
+              </div>
+          </div>
+          </div>
+        </section>
+
+
       </div>
     </div>
     </div>
