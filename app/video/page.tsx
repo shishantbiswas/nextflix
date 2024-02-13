@@ -122,8 +122,8 @@ const handleSubmit = (e: React.FormEvent) => {
         </header>
 
 
-        <section className='flex lg:flex mt-8 justify-between p-4 bg-gray-900 '>
-          <div className='w-[40%]  pr-4 rounded-md '>
+        <section className='lg:flex mt-8 justify-between p-4 bg-gray-900 '>
+          <div className='lg:w-[40%]  pr-4 rounded-md '>
             <div className=' sticky top-5 p-4 bg-black/20 rounded-xl'>
             <div>
           <div >
@@ -184,7 +184,7 @@ const handleSubmit = (e: React.FormEvent) => {
                 </select>
             </label><br/>
             <button type='submit' 
-            className='my-2 text-xl p-2 w-full rounded-lg bg-white text-black' 
+            className='my-2 text-xl p-2 w-full rounded-lg bg-white text-black overflow-hidden' 
             >Confirm</button>
         </form>
               </div>
@@ -195,14 +195,14 @@ const handleSubmit = (e: React.FormEvent) => {
           </div>
 
 
-          <div className='w-[60%]'>
+          <div className='lg:w-[60%]'>
           <div className=' bg-blue-2900 p-3 '>
               <h1 className=' text-3xl font-semibold mb-8'>{paramsType=='movie'?'Recommended Movies':'Recommended TV Shows'}</h1>
-              <div className='grid grid-cols-2 gap-4 '>
+              <div className='grid md:grid-cols-2 lg:grid-cols-2 md:gap-4 '>
               {recommendation.map((e:any)=>(
-                <div key={e.id} className='w-[400px] mb-12'>
-                  <img className='object-cover rounded-md w-[400px] h-[450px] ' src={createImageUrl(e.poster_path,'w500')} alt={e.name || e.title} />
-                  <div className='flex flex-col justify-between min-h-[350px]'>
+                <div key={e.id} className='lg:w-[400px] w-full mb-12'>
+                  <img className='object-cover rounded-md w-full lg:w-[400px] lg:h-[450px] ' src={createImageUrl(e.poster_path,'w500')} alt={e.name || e.title} />
+                  <div className='flex flex-col justify-between min-h-[400px]'>
                   <div>
                   <h1 className='text-3xl font-semibold mt-4'>
                     {e.title || e.name}
