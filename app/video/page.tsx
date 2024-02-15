@@ -92,7 +92,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
 
   return (
-    <div className='w-[100%] p-4 pr-8'>
+    <div className='w-[100%] p-4 pr-8 outline-none'>
       {modal && (
         <div className='absolute top-[25%] rounded-xl left-[35%] bg-black/80 w-[500px] p-4 '>
           <IoIosCloseCircle onClick={()=>setModal(false)}  className='cursor-pointer hover:text-red-600 transition-all duration-200 absolute top-2 right-2' size={40} />
@@ -114,7 +114,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
 
 
-        <header className="w-full h-[260px] sm:h-[300px] md:h-[400px] lg:h-[600px] mt-2">
+        <header className="w-full h-[260px] sm:h-[300px] md:h-[400px] lg:h-[600px] mt-2 outline-none">
         <iframe
         allowFullScreen={true}
         className='w-full h-full bg-black rounded-xl overflow-hidden'
@@ -133,7 +133,7 @@ const handleSubmit = (e: React.FormEvent) => {
               {title ? title : name}
             </h1>
             <p className='text-lg '>Overview : </p>
-            <h1 className="text-sm opacity-70">
+            <h1 className="text-md leading-tight opacity-70">
               {overview}
             </h1>
             {type && (
