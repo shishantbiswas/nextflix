@@ -3,7 +3,7 @@ import FancyBtn from '@/components/FancyBtn';
 import { createImageUrl } from '@/services/apiEndpoint';
 import axios from 'axios';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { FaCircleInfo } from 'react-icons/fa6';
 import { IoIosCloseCircle } from 'react-icons/io';
@@ -11,6 +11,7 @@ import { IoIosCloseCircle } from 'react-icons/io';
 
 const Video = () => {
     const params = useSearchParams()
+    const router = useRouter()
     
     //movies embedding api
     const apiSrc = "https://vidsrc.to/embed/movie/"
@@ -42,12 +43,16 @@ const Video = () => {
       axios.get(`https://api.themoviedb.org/3/${paramsType}/${params.get('tmdbId')}/recommendations?api_key=${key}`).then((res)=>{
         setRecommendation(res.data.results)
       })
-
+      handleSubmit()
     }, [movie,params.get('tmdbId')])
    
     
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
+    const recommendedMovie=(e:any)=>{
+      router.push(`/video?tmdbId=${e.id}&type=${e.media_type}`)
+    }
+
+const handleSubmit = (e?: React.FormEvent) => {
+  e?.preventDefault();
   const apiMap: { [key: string]: { [key: string]: string } } = {
     movie: {
       'Vidsrc': apiSrc,
@@ -122,8 +127,8 @@ const handleSubmit = (e: React.FormEvent) => {
         </header>
 
 
-        <section className='lg:flex mt-8 justify-between p-4 bg-gray-900 '>
-          <div className='lg:w-[40%]  pr-4 rounded-md '>
+        <section className='lg:flex mt-8 rounded-md justify-between p-4 bg-gray-900 '>
+          <div className='lg:w-[40%]  pr-4  '>
             <div className=' sticky top-5 p-4 bg-black/20 rounded-xl'>
             <div>
           <div >
@@ -211,9 +216,9 @@ const handleSubmit = (e: React.FormEvent) => {
                   <p className='opacity-60  mt-4'> Released In {e.release_date}</p>
                   <p className='opacity-60 my-0.5'>Average Voting {e.vote_average}</p>
                   </div>
-                  <Link
+                  <button
                   className='bg-white text-black hover:text-white hover:bg-black transition-all duration-50 text-xl capitalize font-semibold rounded-xl px-4 py-2  text-center'
-                  href={`/video?tmdbId=${e.id}&type=${e.media_type}`}>Play This {paramsType}</Link>
+                  onClick={()=>recommendedMovie(e)}>Play This {paramsType}</button>
                   </div>
                 </div>
               ))}
