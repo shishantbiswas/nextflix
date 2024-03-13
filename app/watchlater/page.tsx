@@ -55,8 +55,8 @@ export default function WatchLater() {
             <>
               <div>
                 <h1 className="pl-4 text-3xl whitespace-normal w-[100%]">
-                  Seems like you don't have any Favourites yet 😥, click the
-                  bookmark button to add them and they'll show up here
+                  Seems like you don&apos;t have any Favourites yet 😥, click the
+                  bookmark button to add them and they&apos;ll show up here
                 </h1>
               </div>
             </>

@@ -132,7 +132,7 @@ export default function Login (){
                             </div>
     
                             <p className='my-4 opacity-45'>
-                              <span>Don't Have a Account ?</span><br />
+                              <span>Don&apos;t Have a Account ?</span><br />
                               <Link href={`${params.get('callback')=='profile' ? '/signup?callback=profile' : '/signup'}`}>Sign Up</Link>
                             </p>
                       </form>

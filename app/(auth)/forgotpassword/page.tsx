@@ -15,10 +15,14 @@ export default function ForgotPassword(){
     const {user,signUp,GoogleAuth,ForgotPassword} = authContext
 
 
-    const resetHandler = (e: { preventDefault: () => void })=>{
-        e.preventDefault()
-        ForgotPassword(email)
+    const resetHandler = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        if (typeof ForgotPassword === 'function') {
+            ForgotPassword(email);
+        } else {
+            console.error('ForgotPassword function is not defined');
     }
+}
 
     return(
         <>

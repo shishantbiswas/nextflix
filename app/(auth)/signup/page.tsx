@@ -5,14 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 
-export default function signup () {
+export default function Signup () {
 
   const params = useSearchParams()
 
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
-  const [file, setFile] = useState('')
   const [showPassword, setShowPassword] = useState(false);
   
     const {user,signUp,GoogleAuth,error} = UserAuth();

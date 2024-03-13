@@ -77,9 +77,14 @@ export function AuthContextProvider({children}:{children:React.ReactNode}) {
 
         try {
           const result = await signInWithPopup(auth, provider);
-          await setDoc(doc(db,"users", result.user.email),{
-            watchLater:[]
-          })
+          if (result.user.email) {
+            await setDoc(doc(db, "users", result.user.email), {
+              watchLater: []
+            });
+          } else {
+            console.error("User email is null")
+            throw new Error("User email is null")
+          }
            return result
      
         } catch (error:any) {
@@ -89,9 +94,10 @@ export function AuthContextProvider({children}:{children:React.ReactNode}) {
 
     }
 
-    async function logIn(email: string, password: string) {
+    async function logIn(email: string, password: string): Promise<UserCredential> {
         try {
-             await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            return userCredential
         } catch (error: any) {
             setError(error?.message);
             throw error;
