@@ -4,7 +4,6 @@ import endpoint from '@/services/apiEndpoint'
 import MovieRow from '@/components/MovieRow'
 import Hero from '@/components/Hero'
 import ExtendMovieRow from '@/components/ExtendMovieRow'
-import Footer from '@/components/Footer'
 
 const Explore = async () => {
  const popularMovies             = await getData(endpoint.popularMovies)

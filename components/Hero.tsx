@@ -2,23 +2,37 @@
 import React, {  useEffect, useState } from 'react'
 import { createImageUrl } from '@/services/apiEndpoint';
 import { useRouter } from 'next/navigation';
+import { UserAuth } from '@/context/AuthContext';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/services/firebase';
+import { TbDeviceWatchPlus } from 'react-icons/tb';
+import { CiPlay1 } from 'react-icons/ci';
+import { FaPlay } from 'react-icons/fa6';
+import { MdOutlineWatchLater } from 'react-icons/md';
 
-interface DataProps {
-  data: any
- }
-
-const Hero = ({data}:DataProps) => {  
+const Hero = ({data}:{data:any}) => {  
   const router = useRouter();
   const VideoHandler =()=>{
     router.push(`/video?tmdbId=${id}&type=movie`)
   }
-  const {title,name,first_air_date,title_english, backdrop_path, release_date,images,mal_id,trailer,synopsis, overview,id} = data;
+  const {title,name,first_air_date,title_english, backdrop_path, release_date,images,synopsis, overview,id} = data;
 
-  // console.log(data);
+  const {user}=UserAuth();
+
+  const [like, setLike] = useState(false); 
   
-  const openTrailer = () => {
-    window.open(trailer.url, "_blank");
- };
+  const markWatchLater = async()=>{
+    const userEmail = user?.email;
+    if (userEmail) {
+      const userDoc = doc(db,'users',userEmail)
+      setLike(!like)
+      await updateDoc(userDoc,{
+        watchLater:arrayUnion({...data}),
+      })
+    }else(alert("login karo"))
+  }
+
+
 
   return(
     <>
@@ -46,15 +60,16 @@ const Hero = ({data}:DataProps) => {
             className='mt-4 mb-4 flex justify-end items-center'>
               <button 
               onClick={VideoHandler}
-              className='bg-white transition-all duration-200 text-black py-2 px-5 mr-3 rounded-full hover:bg-red-600 hover:text-white'>
+              className='flex items-center gap-1 bg-white transition-all duration-200 text-black py-2 px-5 mr-3 rounded-full hover:bg-red-600 hover:text-white'>
+                <FaPlay />
                 Play
               </button>
-              {mal_id ? (
-                 <p
-                 className='border-white border transition-all duration-200 py-2 px-5 mr-3 rounded-full hover:bg-red-600 hover:text-white'
-                 onClick={openTrailer}
-                 >Watch Trailer</p>
-              ):null}
+              <button 
+              onClick={markWatchLater}
+              className='flex items-center gap-1 border transition-all duration-200 text-white py-2 px-5 mr-3 rounded-full hover:bg-white/10'>
+              <MdOutlineWatchLater />
+              Watch Later
+              </button>
             </div>
           </div>
       </div>

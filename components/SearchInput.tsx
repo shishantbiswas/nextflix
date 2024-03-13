@@ -25,7 +25,7 @@ const SearchInput = () => {
   return (
     <div className={`relative`}>
     <form
-    className='flex  justify-center items-center w-[250px] mr-4'
+    className='flex  justify-center items-center w-[250px]'
     onSubmit={submitHandler}>
       <input 
       className='h-10 w-full rounded-full mr-2 bg-gray-700 text-white outline-none px-4'
