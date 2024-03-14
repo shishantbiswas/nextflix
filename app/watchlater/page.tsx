@@ -50,8 +50,7 @@ export default function WatchLater() {
             <>
               <div>
                 <h1 className="pl-4 text-3xl whitespace-normal w-[100%]">
-                  Seems like you don&apos;t have any Favourites yet 😥, click the
-                  bookmark button <MdOutlineWatchLater /> to add them and they&apos;ll show up here
+                 You Don&apos;t have any Favourite Movies or TV Show
                 </h1>
               </div>
             </>
