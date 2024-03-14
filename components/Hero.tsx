@@ -29,7 +29,7 @@ const Hero = ({data}:{data:any}) => {
       await updateDoc(userDoc,{
         watchLater:arrayUnion({...data}),
       })
-    }else(alert("login karo"))
+    }else(alert("Login to save Movies and Shows to Watch Later"))
   }
 
 
@@ -44,7 +44,7 @@ const Hero = ({data}:{data:any}) => {
           src={ images ? images.webp.large_image_url : createImageUrl(backdrop_path,"original")} 
           alt={title ? title : name } />
           <div
-          className='absolute w-[50%] lg:w-[40%] text-end top-[40%] lg:top-[35%] right-0 p-4 md:p-8'>
+          className='absolute sm:w-[70%] lg:w-[40%] text-end top-[40%] lg:top-[35%] right-0 p-4 md:p-8'>
             <h1 
             className='md:text-6xl text-4xl font-semibold'
             >{title_english ? title_english : (title?title:name) }</h1>
@@ -57,16 +57,16 @@ const Hero = ({data}:{data:any}) => {
               {overview? overview:synopsis}
               </p>
             <div
-            className='mt-4 mb-4 flex justify-end items-center'>
+            className='mt-4 mb-4 flex flex-col sm:gap-0 gap-2 sm:flex-row justify-end items-center'>
               <button 
               onClick={VideoHandler}
-              className='flex items-center gap-1 bg-white transition-all duration-200 text-black py-2 px-5 mr-3 rounded-full hover:bg-red-600 hover:text-white'>
+              className='flex text-sm w-[90%] sm:w-fit items-center gap-1 bg-white transition-all duration-200 text-black py-2 px-5 sm:mr-3 rounded-full hover:bg-red-600 hover:text-white'>
                 <FaPlay />
                 Play
               </button>
               <button 
               onClick={markWatchLater}
-              className='flex items-center gap-1 border transition-all duration-200 text-white py-2 px-5 mr-3 rounded-full hover:bg-white/10'>
+              className='flex text-sm w-[90%] sm:w-fit items-center gap-1 border transition-all duration-200 text-white py-2 px-5 sm:mr-3 rounded-full hover:bg-white/10'>
               <MdOutlineWatchLater />
               Watch Later
               </button>

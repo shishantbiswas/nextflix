@@ -1,7 +1,6 @@
 const key = process.env.NEXT_PUBLIC_TMDB_KEY
 
 const baseUrl = "https://api.themoviedb.org/3"
-const tvUrl =  `${baseUrl}/tv`
 
 const endpoint = {
     find:`${baseUrl}/find?api=${key}`,

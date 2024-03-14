@@ -41,14 +41,9 @@ export default function WatchLater() {
       <div>
         <div>
           <div className="bg-black/60 fixed top-0 w-full h-screen" />
-          <div className="">
-            <p className="font-nsans-light text-lg text-gray-400 ">
-              {user?.displayName}
-            </p>
-          </div>
         </div>
-        <h1 className="md:text-2xl  text-3xl p-4 capitalize">
-          Favourite shows
+        <h1 className="md:text-2xl  lg:text-4xl p-4 capitalize">
+          Favourite Movies and TV Shows
         </h1>
         <div className="relative flex items-center group">
           {movies.length == 0 && (
@@ -56,7 +51,7 @@ export default function WatchLater() {
               <div>
                 <h1 className="pl-4 text-3xl whitespace-normal w-[100%]">
                   Seems like you don&apos;t have any Favourites yet 😥, click the
-                  bookmark button to add them and they&apos;ll show up here
+                  bookmark button <MdOutlineWatchLater /> to add them and they&apos;ll show up here
                 </h1>
               </div>
             </>

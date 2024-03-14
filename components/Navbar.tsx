@@ -8,20 +8,14 @@ import { SiAppletv, SiNetflix, SiPrimevideo } from "react-icons/si";
 import {
   TbBrandDisney,
   TbLogin,
-  TbLogin2,
   TbLogout2,
-  TbMenuDeep,
 } from "react-icons/tb";
 import { IoHome, IoHomeOutline, IoMenu } from "react-icons/io5";
 import { UserAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { LuPencilLine } from "react-icons/lu";
 import { MdOutlineWatchLater } from "react-icons/md";
-import { GrMenu, GrPowerShutdown } from "react-icons/gr";
-import { FaRegUser, FaUser, FaUserEdit } from "react-icons/fa";
-import { updateProfile } from "firebase/auth";
-import { CgMenuRound } from "react-icons/cg";
-import { ImMenu } from "react-icons/im";
+import { FaRegUser, FaUserEdit } from "react-icons/fa";
+
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -317,7 +311,7 @@ const Navbar = () => {
                 <TbLogin />
               </span>
             </button> <button
-              onClick={()=>router.push('/sighup')}
+              onClick={()=>router.push('/signup')}
               className={`text-2xl pl-2  flex items-center justify-between   hover:pl-6 py-2 rounded-md opacity-70  mb-2  font-normal hover:font-semibold transition-all duration-200 group overflow-hidden hover:bg-blue-500 w-full `}
             >
               Sign Up
