@@ -38,9 +38,19 @@ export default function WatchLater() {
         </h1>
         <div className="relative  flex items-center">
           {movies.length == 0 && (
+<<<<<<< HEAD
             <h1 className="pl-4  items-center text-2xl opacity-70 w-[100%]">
               No Favourites Movies And TV Shows yet
             </h1>
+=======
+            <>
+              <div>
+                <h1 className="pl-4 text-3xl whitespace-normal w-[100%]">
+                 You Don&apos;t have any Favourite Movies or TV Show
+                </h1>
+              </div>
+            </>
+>>>>>>> 1ad1d7928aff961ad0433e8c5fcb0a7535099f08
           )}
           <div className="w-full grid grid-cols-4 h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide">
             {movies.map((movie: any) => (
