@@ -4,17 +4,18 @@ import SearchInput from "./SearchInput";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { VscArrowCircleRight } from "react-icons/vsc";
-import { SiAppletv, SiNetflix, SiPrimevideo } from "react-icons/si";
+import {  SiMyanimelist, SiNetflix, SiPrimevideo } from "react-icons/si";
 import {
   TbBrandDisney,
   TbLogin,
   TbLogout2,
 } from "react-icons/tb";
 import { IoHome, IoHomeOutline, IoMenu } from "react-icons/io5";
-import { UserAuth } from "@/context/AuthContext";
+import { UserAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { MdOutlineWatchLater } from "react-icons/md";
 import { FaRegUser, FaUserEdit } from "react-icons/fa";
+import { BiSolidCategory } from "react-icons/bi";
 
 
 const Navbar = () => {
@@ -24,19 +25,20 @@ const Navbar = () => {
 
   const { user, logOut } = UserAuth();
 
-  const isAnime = pathname.split("/")[1];
-
-  const isAcitveNextPage = pathname + "/" + params.get("endpointName");
-  const [openNav, setOpenNav] = useState(false);
-
+  // const isAnime = pathname.split("/")[1];
   const isProfilePath = pathname == "/profile";
+
+  const [openNav, setOpenNav] = useState(false);
+  
+  const isCurrentPage = pathname.split('/tv/1')[0]
+  
+
   return (
     <div
       className={`
-      ${openNav == false ? "flex" : "flex flex-col-reverse"}
-      justify-between items-center lg:items-start lg:flex-col lg:py-3 lg:px-4 px-8 bg-gray-900 
-       rounded-br-[16px]  py-3 overflow-hidden  lg:h-screen w-screen lg:min-w-[300px] lg:w-[300px] 
-        z-50 sticky top-0 border-4 border-l-0 border-t-0 border-gray-800  
+      ${openNav == false ? "flex" : "flex flex-col-reverse"} justify-between items-center lg:items-start lg:flex-col lg:py-3 lg:px-4 px-8 bg-gray-900 
+       lg:rounded-br-[16px]  py-3 lg:overflow-hidden  lg:h-screen w-screen lg:min-w-[300px] lg:w-[300px] 
+        z-50 sticky top-0 lg:border-4 lg:border-l-0 lg:border-t-0 border-gray-800  
         ${
           ["/video", "/signup", "/login"].includes(pathname)
             ? "hidden"
@@ -50,17 +52,22 @@ const Navbar = () => {
         } justify-between items-center lg:items-start w-full`}
       >
         <div className="flex items-center justify-between w-full ">
+
           <Link href={"/"}>
             <h1 className="text-red-600 font-semibold  transition-all duration-200 mb-2 lg:mb-4  cursor-pointer text-5xl ">
               <span className="hidden md:block ">Nextflix</span>
               <span className="md:hidden">N</span>
             </h1>
           </Link>
-          <div className="flex items-center justify-center">
+
+        
+          
+          <div className="flex items-center justify-center gap-2">
             <div
               title="Menu"
               className={`transition-all duration-200 px-1 py-1 rounded-full lg:hidden `}
             >
+              
               <IoMenu
                 size={45}
                 className="p-0.5 hover:bg-white/30 rounded-full"
@@ -70,6 +77,9 @@ const Navbar = () => {
                     : () => setOpenNav(false)
                 }
               />
+            </div>
+            <div className="lg:hidden block ">
+            <SearchInput />
             </div>
             <img
               className="w-[45px] h-[45px] object-cover rounded-full lg:hidden"
@@ -82,13 +92,16 @@ const Navbar = () => {
           </div>
         </div>
         <div
-          className={`lg:flex z-50 lg:flex-col w-full h-screen lg:h-fit mt-4 ${
+          className={`lg:flex z-50 lg:flex-col w-full h-screen lg:h-fit mt-4 lg:mt-0 ${
             openNav == false && "hidden"
           }`}
         >
+          <div className="hidden lg:block">
+          <SearchInput />
+          </div>
           <Link
             href={"/"}
-            className={`text-2xl flex items-center justify-between   py-2 rounded-lg mb-2  font-normal  transition-all duration-200 group overflow-hidden 
+            className={`text-2xl flex items-center justify-between mt-4  py-2 rounded-lg mb-2  font-normal  transition-all duration-200 group overflow-hidden 
         ${
           pathname == "/"
             ? "bg-gradient-to-r from-cyan-500 pl-6 to-blue-500 font-semibold opacity-100"
@@ -107,67 +120,73 @@ const Navbar = () => {
             </span>
           </Link>
 
-          <Link
+          {/* <Link
             href={
-              "/nextpage?endpointName=popularMovies&pageNo=1&title=Popular+Movies&type=movie"
-            }
-            className={`text-2xl flex items-center justify-between   hover:pl-6 py-2 rounded-lg mb-2 font-normal hover:font-semibold
-        transition-all duration-200 group overflow-hidden
-        ${
-          isAcitveNextPage == "/nextpage/popularMovies"
-            ? "bg-gradient-to-r from-green-700 pl-6 to-emerald-600  font-semibold opacity-100"
-            : "hover:bg-gradient-to-r from-green-700 to-emerald-600 hover:font-semibold  hover:pl-6 opacity-70 hover:opacity-100"
-        }
-        `}
-          >
-            Popular Movies
-            <span
-              className={` block ${
-                isAcitveNextPage == "/nextpage/popularMovies"
-                  ? "-translate-x-6 "
-                  : "group-hover:-translate-x-6 hidden group-hover:block translate-x-12 "
-              }`}
-            >
-              <VscArrowCircleRight />
-            </span>
-          </Link>
-
-          <Link
-            href={
-              "/nextpage?endpointName=animeMovie&pageNo=1&title=Anime+Movies&type=movie"
+              "/anime"
             }
             className={`text-2xl flex items-center justify-between   hover:pl-6 py-2 rounded-lg mb-2  font-normal hover:font-semibold
         
         transition-all duration-200 group overflow-hidden 
         ${
-          isAcitveNextPage == "/nextpage/animeMovie"
+          pathname=='/anime'
+            ? "bg-gradient-to-r  from-rose-700 to-pink-700 pl-6  font-semibold  hover:opacity-100"
+            : "hover:bg-gradient-to-r  from-rose-700 to-pink-700 hover:font-semibold  hover:pl-6 opacity-70 hover:opacity-100"
+        }
+        `}
+          >
+            Anime
+            <span
+              className={` block ${
+                pathname=='/anime'
+                ? "-translate-x-6 "
+                  : "group-hover:-translate-x-6 hidden group-hover:block translate-x-12 "
+              }`}
+            >
+              <SiMyanimelist />
+            </span>
+          </Link> */}
+
+           
+           
+
+          <Link
+            href={
+              "/categories"
+            }
+            className={`text-2xl flex items-center justify-between   hover:pl-6 py-2 rounded-lg mb-2  font-normal hover:font-semibold
+        
+        transition-all duration-200 group overflow-hidden 
+        ${
+          pathname=='/categories'
             ? "bg-gradient-to-r from-red-700 to-orange-500 pl-6  font-semibold  hover:opacity-100"
             : "hover:bg-gradient-to-r from-red-700 to-orange-500 hover:font-semibold  hover:pl-6 opacity-70 hover:opacity-100"
         }
         `}
           >
-            Anime Movies
+            Categories
             <span
               className={` block ${
-                isAcitveNextPage == "/nextpage/animeMovie"
-                  ? "-translate-x-6 "
+                pathname=='/categories'
+                ? "-translate-x-6 "
                   : "group-hover:-translate-x-6 hidden group-hover:block translate-x-12 "
               }`}
             >
-              <VscArrowCircleRight />
+              <BiSolidCategory />
             </span>
           </Link>
+
+         
 
           <h1 className="mt-2 text-md opacity-55">Streaming Services</h1>
           <Link
             href={
-              "/nextpage?endpointName=netflix&pageNo=1&title=Netflix&type=tv"
+              "/categories/netflix/tv/1"
             }
             className={`text-2xl pl-2 border-l-[3px]  flex items-center justify-between   hover:pl-6 py-2 rounded-r-md   mb-2 font-normal hover:font-semibold
         
         transition-all duration-200 group overflow-hidden
         ${
-          isAcitveNextPage == "/nextpage/netflix"
+          isCurrentPage == "/categories/netflix"
             ? "bg-gradient-to-r from-red-700 to-red-500 font-semibold opacity-100  pl-6"
             : "hover:bg-gradient-to-r from-red-700 to-red-500 hover:font-semibold  hover:pl-6 opacity-70 hover:opacity-100"
         }
@@ -177,7 +196,7 @@ const Navbar = () => {
             Netflix
             <span
               className={` block ${
-                isAcitveNextPage == "/nextpage/netflix"
+                isCurrentPage == "/categories/netflix"
                   ? "-translate-x-6 "
                   : "group-hover:-translate-x-6 hidden group-hover:block translate-x-12 "
               }`}
@@ -187,11 +206,11 @@ const Navbar = () => {
           </Link>
 
           <Link
-            href={"/nextpage?endpointName=amazon&pageNo=1&title=Amazon&type=tv"}
+            href={"/categories/amazon/tv/1"}
             className={`text-2xl pl-2 border-l-[3px]  flex items-center justify-between   hover:pl-6 py-2 rounded-r-md   mb-2 font-normal hover:font-semibold
         transition-all duration-200 group overflow-hidde
         ${
-          isAcitveNextPage == "/nextpage/amazon"
+          isCurrentPage == "/categories/amazon"
             ? "bg-gradient-to-r from-blue-700 to-blue-400 pl-6 font-semibold opacity-100"
             : "hover:bg-gradient-to-r from-blue-700 to-blue-400 hover:font-semibold  hover:pl-6 opacity-70 hover:opacity-100"
         }
@@ -200,7 +219,7 @@ const Navbar = () => {
             Amazon
             <span
               className={` block ${
-                isAcitveNextPage == "/nextpage/amazon"
+                isCurrentPage == "/categories/amazon"
                   ? "-translate-x-6 "
                   : "group-hover:-translate-x-6 hidden group-hover:block translate-x-12 "
               }`}
@@ -211,12 +230,12 @@ const Navbar = () => {
 
           <Link
             href={
-              "/nextpage?endpointName=disneyPlus&pageNo=1&title=Disney+Hotstar&type=tv"
+              "/categories/disneyPlus/tv/1"
             }
             className={`text-2xl pl-2 border-l-[3px]  flex items-center justify-between   hover:pl-6 py-2 rounded-r-md   mb-2  font-normal hover:font-semibold
         transition-all duration-200 group overflow-hidden
         ${
-          isAcitveNextPage == "/nextpage/disneyPlus"
+          isCurrentPage == "/categories/disneyPlus"
             ? "bg-gradient-to-r from-blue-600 to-blue-800 pl-6 font-semibold opacity-100"
             : " hover:bg-gradient-to-r from-blue-600 to-blue-800 hover:font-semibold  hover:pl-6 opacity-70 hover:opacity-100"
         }
@@ -225,7 +244,7 @@ const Navbar = () => {
             Disney Hotstar
             <span
               className={` block ${
-                isAcitveNextPage == "/nextpage/disneyPlus"
+                isCurrentPage == "/categories/disneyPlus"
                   ? "-translate-x-6 "
                   : "group-hover:-translate-x-6 hidden group-hover:block translate-x-12 "
               }`}
@@ -234,36 +253,12 @@ const Navbar = () => {
             </span>
           </Link>
 
-          <Link
-            href={
-              "/nextpage?endpointName=appleTv&pageNo=1&title=Apple+TV&type=tv"
-            }
-            className={`text-2xl pl-2 border-l-[3px]  flex items-center justify-between   hover:pl-6 py-2 rounded-r-md   mb-2  font-normal hover:font-semibold
-        transition-all duration-200 group overflow-hidden
-        ${
-          isAcitveNextPage == "/nextpage/appleTv"
-            ? "bg-gradient-to-r  from-gray-700 to-gray-400  pl-6 font-semibold opacity-100"
-            : "hover:bg-gradient-to-r  from-gray-700 to-gray-400 hover:font-semibold  hover:pl-6 opacity-70 hover:opacity-100"
-        }
-        `}
-          >
-            Apple TV
-            <span
-              className={` block ${
-                isAcitveNextPage == "/nextpage/appleTv"
-                  ? "-translate-x-6 "
-                  : "group-hover:-translate-x-6 hidden group-hover:block translate-x-12 "
-              }`}
-            >
-              <SiAppletv />
-            </span>
-          </Link>
-
+         
           <div className={`${openNav == true ? "block w-full" : "hidden"}`}>
            {user ? (
             <>
              <button
-              onClick={() => router.push("watchlater")}
+              onClick={() => router.push("/watchlater")}
               className={`text-2xl pl-2  flex items-center justify-between   hover:pl-6 py-2 rounded-md opacity-70  mb-2  font-normal hover:font-semibold transition-all duration-200 group overflow-hidden hover:bg-violet-500 w-full `}
             >
               Watch Later
@@ -329,7 +324,7 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`hidden lg:flex flex-col   bg-gray-800/40 rounded-xl h-[160px] w-full  p-1.5
+        className={`hidden lg:flex flex-col   bg-gray-800/40 rounded-xl w-full  p-1.5
      ${openNav == true && "w-full items-center "}
      items-center justify-between `}
       >
@@ -373,7 +368,7 @@ const Navbar = () => {
                     )}
                     <button
                       className="flex hover:bg-gray-700 px-1 items-center rounded-[3px] min-w-[100px] my-[1px] gap-2"
-                      onClick={() => router.push("watchlater")}
+                      onClick={() => router.push("/watchlater")}
                     >
                       <MdOutlineWatchLater /> Watch Later
                     </button>
@@ -408,7 +403,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        <SearchInput />
+        {/* <SearchInput /> */}
       </div>
     </div>
   );

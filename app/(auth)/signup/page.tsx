@@ -1,5 +1,5 @@
 'use client'
-import { UserAuth } from "@/context/AuthContext"
+import { UserAuth } from "../../../context/AuthContext"
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -53,13 +53,15 @@ export default function Signup () {
 
   useEffect(()=>{
     if(user){
-      if(params.get('callback')){
-        router.push(`/${params.get('callback')}`)
-      }else{
-        router.push('/')
-      }
+      const timer = setTimeout(() => {
+        if (params.get('callback')) {
+          router.push(`/${params.get('callback')}`);
+        } else {
+          router.push('/');
+        }
+      },10000)
     }
-  },[user])
+  },[user,params,router])
 
 
   return (

@@ -1,5 +1,5 @@
 'use client'
-import { UserAuth } from '@/context/AuthContext'
+import { UserAuth } from '../../../context/AuthContext'
 import { useState } from 'react'
 
 

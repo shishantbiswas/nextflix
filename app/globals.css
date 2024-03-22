@@ -7,18 +7,29 @@ body{
     background-color: #151515;
     box-sizing: border-box;
     color: white;
-    font-family: "Nsans Regular",'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden
   }
  
 
-  /* @-moz-document url-prefix() {
-    html,
-    body {
-      scrollbar-width: none;
-    }
-  }
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-  body::-webkit-scrollbar{
-    display:none;
-  } */
+/* Track */
+::-webkit-scrollbar-track {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { createImageUrl } from '../services/apiEndpoint'
-import { AiFillPlayCircle } from "react-icons/ai";
 import { usePathname, useRouter } from 'next/navigation';
-import { UserAuth } from '@/context/AuthContext';
+import { UserAuth } from '../context/AuthContext';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase';
-import { TbDeviceWatchPlus } from 'react-icons/tb';
-import { CiPlay1 } from 'react-icons/ci';
+import { db } from '../services/firebase';
 import { FaPlay } from 'react-icons/fa6';
 import { MdOutlineWatchLater } from 'react-icons/md';
+import { IoIosPause } from 'react-icons/io';
+import { FaCheckCircle } from 'react-icons/fa';
 
 
 const MovieItem = ({movie,type}:{movie:any,type:string}) => {  
@@ -18,13 +17,14 @@ const MovieItem = ({movie,type}:{movie:any,type:string}) => {
   const router = useRouter();
   
   const VideoHandler =()=>{
-    if(poster_path){
-      router.push(`/video?tmdbId=${id}&type=${type}`)
-    }
+    setPlayClicked(true)
+      router.push(`/video/${type}/${id}`)
   }
 
   const {user} = UserAuth()
-  const [like, setLike] = useState(false); 
+const [like, setLike] = useState(false); 
+const [playClicked, setPlayClicked] = useState(false);
+
   
   const markWatchLater = async()=>{
     const userEmail = user?.email;
@@ -32,7 +32,7 @@ const MovieItem = ({movie,type}:{movie:any,type:string}) => {
       const userDoc = doc(db,'users',userEmail)
       setLike(!like)
       await updateDoc(userDoc,{
-        watchLater:arrayUnion({...movie}),
+        watchLater:arrayUnion({...movie,type:type}),
       })
     }else(alert("login karo"))
   }
@@ -61,16 +61,19 @@ const MovieItem = ({movie,type}:{movie:any,type:string}) => {
          <button
          onClick={markWatchLater}
          className='absolute bottom-4 hover:bg-white/30 rounded-lg px-2 py-0.5  flex items-center justify-center xl:opacity-0 group-hover:opacity-100 delay-600 transition-all transform duration-[500ms]'>
-         <MdOutlineWatchLater 
-         className='text-2xl'
-         /><h1 className='pl-2 text-lg lg:text-2xl font-medium'>Watch Later</h1>
+          {like==true ? <FaCheckCircle className='text-2xl' /> : <MdOutlineWatchLater className='text-2xl' />}
+
+         <h1 className='pl-2 text-lg lg:text-2xl font-medium'>
+         {like ? "Saved" : "Watch Later"}
+         </h1>
          </button>
         <button
          onClick={VideoHandler}
          className='absolute bottom-14 hover:bg-white/30 rounded-lg px-2 py-0.5  flex items-center justify-center xl:opacity-0 group-hover:opacity-100 delay-600 transition-all transform duration-[500ms]'>
-         <FaPlay   
-         className='text-2xl'
-         /><h1 className='pl-2 text-lg lg:text-2xl font-medium'>Play Now</h1>
+                         {playClicked==false ? <FaPlay className='text-2xl'/> : <IoIosPause className='text-2xl' />}           
+         <h1 className='pl-2 text-lg lg:text-2xl font-medium'>
+              {playClicked==false ? (type=="movie" ? "Play Movie" : "Play TV Show") : "Playing"}
+          </h1>
          </button>
      </div>
     </div>

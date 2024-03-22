@@ -1,7 +1,10 @@
 const key = process.env.NEXT_PUBLIC_TMDB_KEY
 
-const baseUrl = "https://api.themoviedb.org/3"
+const streamKey = process.env.NEXT_PUBLIC_STREAM_API_PASSWORD
+const login = process.env.NEXT_PUBLIC_STREAM_API_USERNAME
 
+export const baseUrl = "https://api.themoviedb.org/3"
+export const streamApi = `https://api.streamtape.com/account/info?login=${login}&key=${streamKey}`
 const endpoint = {
     find:`${baseUrl}/find?api=${key}`,
     // movie endpoints
@@ -12,7 +15,7 @@ const endpoint = {
     nowPlayingMovies:`${baseUrl}/movie/now_playing?api_key=${key}`,
 
     //anime keyword
-    animeMovie:`${baseUrl}/discover/movie?api_key=${key}&with_keywords=210024|222243`,
+    animeMovies:`${baseUrl}/discover/movie?api_key=${key}&with_keywords=210024|222243`,
     
     // tv endpoints
 
@@ -27,12 +30,10 @@ const endpoint = {
     topRatedTvShows:`${baseUrl}/tv/top_rated?api_key=${key}&region=US`,
     //anime keyword
     anime:`${baseUrl}/discover/tv?api_key=${key}&with_keywords=210024|222243`,
-
-
 }
 
 export function createImageUrl(filename : string ,size : any){
     return`https://image.tmdb.org/t/p/${size}/${filename}`
 }
 
-export default endpoint;
+export default endpoint

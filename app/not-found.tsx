@@ -1,7 +1,13 @@
+import { Metadata } from 'next'
 import Link from 'next/link'
 import React from 'react'
 
-const notFound = () => {
+export const metadata: Metadata = {
+  title: 'Not Found 404 - Nextflix',
+  description: 'Nextflix clone built with Next.js and Tailwind CSS',
+}
+
+export default function notFound () {
   return (
     <div className='h-screen text-center w-full flex item-center justify-center flex-col'>
       <h1 className=' text-2xl lg:text-8xl'>404 Not Found</h1>
@@ -11,4 +17,3 @@ const notFound = () => {
   )
 }
 
-export default notFound

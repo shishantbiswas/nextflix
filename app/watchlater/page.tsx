@@ -1,15 +1,12 @@
 "use client";
-import MovieItem from "@/components/MovieItem";
-import { UserAuth } from "@/context/AuthContext";
-import { createImageUrl } from "@/services/apiEndpoint";
-import { db } from "@/services/firebase";
+import { UserAuth } from "../../context/AuthContext";
+import { createImageUrl } from "../../services/apiEndpoint";
+import { db } from "../../services/firebase";
 import { arrayRemove, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { CiBookmarkRemove } from "react-icons/ci";
 import { FaPlay } from "react-icons/fa6";
-import { MdOutlineWatchLater } from "react-icons/md";
 
 export default function WatchLater() {
   const router = useRouter();
@@ -23,7 +20,7 @@ export default function WatchLater() {
         if (doc.data()) return setMovies(doc?.data()?.watchLater);
       });
     }
-  }, [user?.email]);
+  }, [user?.email, user]);
 
   const handleUnlikeShows = async (movie: any) => {
     const userDoc = doc(db, "users", user?.email ?? "defaultEmail");
@@ -32,29 +29,18 @@ export default function WatchLater() {
     });
   };
 
-   if(!user){
-     router.push('/login?callback=watchlater')
-  }
 
   return (
     <>
-      <div>
-        <div>
-          <div className="bg-black/60 fixed top-0 w-full h-screen" />
-        </div>
-        <h1 className="md:text-2xl  lg:text-4xl p-4 capitalize">
+      <div className="w-full">
+        <h1 className="md:text-2xl font-bold lg:text-4xl p-4 capitalize text-white">
           Favourite Movies and TV Shows
         </h1>
-        <div className="relative flex items-center group">
+        <div className="relative  flex items-center">
           {movies.length == 0 && (
-            <>
-              <div>
-                <h1 className="pl-4 text-3xl whitespace-normal w-[100%]">
-                  Seems like you don&apos;t have any Favourites yet 😥, click the
-                  bookmark button <MdOutlineWatchLater /> to add them and they&apos;ll show up here
-                </h1>
-              </div>
-            </>
+            <h1 className="pl-4  items-center text-2xl opacity-70 w-[100%]">
+              No Favourites Movies And TV Shows yet
+            </h1>
           )}
           <div className="w-full grid grid-cols-4 h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide">
             {movies.map((movie: any) => (
@@ -66,9 +52,7 @@ export default function WatchLater() {
                   }`}
                 >
                   <img
-                    className={`lg:w-full object-cover object-center ${
-                      pathname == "/nextpage" ? "" : "lg:h-[300px] xl:h-[400px]"
-                    }`}
+                    className={`lg:w-full object-cover object-center `}
                     src={createImageUrl(
                       movie.poster_path
                         ? movie.poster_path
@@ -85,7 +69,7 @@ export default function WatchLater() {
                           : " group-hover:lg:leading-[36px] lg:text-[36px] leading-[20px] text-[20px]"
                       } `}
                     >
-                      {movie.title ? movie.title : name}
+                      {movie.title ? movie.title : movie.name}
                     </p>
                     <p className="text-[13px] md:text-md opacity-10  duration-500 group-hover:opacity-70 ">
                       {movie.release_date
@@ -106,7 +90,12 @@ export default function WatchLater() {
                       <CiBookmarkRemove size={30} />
                       <h1 className="pl-2 text-xl font-medium">Watch Later</h1>
                     </button>
-                    <button className="absolute bottom-16 left-4 flex items-center justify-center xl:opacity-0 group-hover:opacity-100 delay-600 transition-all transform duration-[500ms]">
+                    <button
+                      onClick={() =>
+                        router.push(`/video/${movie.type}/${movie.id}`)
+                      }
+                      className="absolute bottom-16 left-4 flex items-center justify-center xl:opacity-0 group-hover:opacity-100 delay-600 transition-all transform duration-[500ms]"
+                    >
                       <FaPlay size={30} />
                       <h1 className="pl-2 text-xl font-medium">Play Now</h1>
                     </button>

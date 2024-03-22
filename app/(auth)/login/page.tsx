@@ -1,5 +1,5 @@
 'use client'
-import { UserAuth } from "@/context/AuthContext";
+import { UserAuth } from "../../../context/AuthContext";
 import Link from "next/link";
 import {  useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -58,13 +58,9 @@ export default function Login (){
 
   useEffect(()=>{
     if(user){
-      if(params.get('callback')){
-        router.push(`/${params.get('callback')}`)
-      }else{
-        router.push('/')
-      }
+          router.push('/');
     }
-  },[user])
+  },[user,params,router])
 
     return (
         <>

@@ -1,37 +1,40 @@
 'use client'
-import React, {  useEffect, useState } from 'react'
-import { createImageUrl } from '@/services/apiEndpoint';
+import React, { useState } from 'react'
+import { createImageUrl } from '../services/apiEndpoint';
 import { useRouter } from 'next/navigation';
-import { UserAuth } from '@/context/AuthContext';
+import { UserAuth } from '../context/AuthContext';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase';
-import { TbDeviceWatchPlus } from 'react-icons/tb';
-import { CiPlay1 } from 'react-icons/ci';
+import { db } from '../services/firebase';
 import { FaPlay } from 'react-icons/fa6';
 import { MdOutlineWatchLater } from 'react-icons/md';
+import {motion} from 'framer-motion'
+import { FaCheckCircle, FaPause } from 'react-icons/fa';
+import { IoIosPause } from 'react-icons/io';
 
 const Hero = ({data}:{data:any}) => {  
   const router = useRouter();
-  const VideoHandler =()=>{
-    router.push(`/video?tmdbId=${id}&type=movie`)
-  }
   const {title,name,first_air_date,title_english, backdrop_path, release_date,images,synopsis, overview,id} = data;
 
   const {user}=UserAuth();
 
-  const [like, setLike] = useState(false); 
-  
+  const [like, setLike] = useState(false);
+const [PlayText, setPlayText] = useState("Play");  
   const markWatchLater = async()=>{
     const userEmail = user?.email;
-    if (userEmail) {
+    const userVerified = user?.emailVerified
+    if (userEmail && userVerified) {
       const userDoc = doc(db,'users',userEmail)
       setLike(!like)
       await updateDoc(userDoc,{
-        watchLater:arrayUnion({...data}),
+        watchLater:arrayUnion({...data,type:'movie'}),
       })
     }else(alert("Login to save Movies and Shows to Watch Later"))
   }
 
+  const playHandler = ()=>{
+    setPlayText("Playing")
+    router.push(`/video/movie/${id}`)
+  }
 
 
   return(
@@ -57,18 +60,21 @@ const Hero = ({data}:{data:any}) => {
               {overview? overview:synopsis}
               </p>
             <div
-            className='mt-4 mb-4 flex flex-col sm:gap-0 gap-2 sm:flex-row justify-end items-center'>
-              <button 
-              onClick={VideoHandler}
-              className='flex text-sm w-[90%] sm:w-fit items-center gap-1 bg-white transition-all duration-200 text-black py-2 px-5 sm:mr-3 rounded-full hover:bg-red-600 hover:text-white'>
-                <FaPlay />
-                Play
-              </button>
+            className='mt-4  mb-4 flex flex-col sm:gap-0 gap-2 sm:flex-row justify-end items-center text-white'>
+              <motion.button
+              initial={{color:'black'}} 
+              whileHover={{color:'white', transition:{duration:3}}}
+              onClick={playHandler}
+              className='flex text-sm w-[90%] hover:bg-red-600 sm:w-fit items-center gap-1 bg-white transition-all duration-200 text-black py-2 px-5 sm:mr-3 rounded-full '>
+               {PlayText=='Play' ? <FaPlay /> : <IoIosPause />}           
+                  {PlayText}
+              </motion.button>
+              
               <button 
               onClick={markWatchLater}
-              className='flex text-sm w-[90%] sm:w-fit items-center gap-1 border transition-all duration-200 text-white py-2 px-5 sm:mr-3 rounded-full hover:bg-white/10'>
-              <MdOutlineWatchLater />
-              Watch Later
+              className='flex text-sm w-[90%]  sm:w-fit items-center gap-1 border transition-all duration-200 text-white py-2 px-5 sm:mr-3 rounded-full hover:bg-white/10'>
+              {like==true ? <FaCheckCircle /> : <MdOutlineWatchLater />}
+                {like ? "Saved" : "Watch Later"}
               </button>
             </div>
           </div>

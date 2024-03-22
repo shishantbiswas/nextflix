@@ -1,5 +1,5 @@
 'use client'
-import { UserAuth } from "@/context/AuthContext";
+import { UserAuth } from "../../context/AuthContext";
 import { updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -20,9 +20,7 @@ export default function Profile(){
         router.refresh()
     }}
 
-    if(!user){
-        router.push('/login?callback=profile')
-    }
+
 
     return(
         <>
