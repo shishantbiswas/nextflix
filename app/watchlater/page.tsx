@@ -38,7 +38,6 @@ export default function WatchLater() {
         </h1>
         <div className="relative  flex items-center">
           {movies.length == 0 && (
-
             <>
               <div>
                 <h1 className="pl-4 text-3xl whitespace-normal w-[100%]">
